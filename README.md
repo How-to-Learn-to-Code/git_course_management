@@ -1,8 +1,7 @@
 # Github R Course Administration Utilities
 ## Spencer Nystrom
 
-[R Github Course](http://happygitwithr.com/)
-
+Inspired by: [Happy Git with R](http://happygitwithr.com/)
 
 # Prerequisites to using these tools
 
@@ -23,14 +22,14 @@ install.packages(pkgs)
 
 ## Quickstart:
 These scripts will:
-1. create repos for each student
-1. add students to student team
-1. give student team read access to other student repos
+1. Create repos for each student
+1. Add students to student team
+1. Give student team read access to other student repos
 	- instructors should have push access by default if you set up the instructor team correctly
-1. add student as collaborator to org with push access to their own repo
-1. unwatch student repos.
+1. Add each student as collaborator to org with push access to their own repo
+1. Unwatch student repos so you don't get notifications every time they push
 
-- The following examples assume you've saved your github token in a plaintext file called 'auth.txt'
+**Note:** The following examples assume you've saved your github token in a plaintext file called 'auth.txt'
 
 ### Configure your working environment:
 ```{r}
@@ -45,7 +44,7 @@ userNames <- c("testuser1", "testuser2")
 ```
 
 ### Setup (Quick)
-This wil  create a repository named after each students' username. `repoNames` below can be any list that is parallel to `userNames`.
+This will  create a repository named after each students' username. `repoNames` below can be any list that is parallel to `userNames`.
 ```{r}
 setup_course_repos(repoNames = userNames, userNames = userNames, orgName, teamName, auth)
 ```
