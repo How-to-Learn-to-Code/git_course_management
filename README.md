@@ -16,7 +16,7 @@ You'll also want to create a github token with admin access to your org.
 
 ## Requirements:
 ```{r}
-pkgs <- c("magrittr", "purrr", "gh", "dplyr")
+pkgs <- c("magrittr", "purrr", "gh", "dplyr", "glue")
 install.packages(pkgs)
 ```
 
