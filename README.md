@@ -46,11 +46,13 @@ userNames <- c("testuser1", "testuser2")
 ### Setup (Quick)
 This will  create a repository named after each students' username. `repoNames` below can be any list that is parallel to `userNames`.
 
-**Note:** This defaults to making private repositories and doesn't currently support switching this behavior (Will add this soon--promise). 
-Therefore, be sure to register your Org with Github as an academic organization for free private repos.
 ```{r}
 setup_course_repos(repoNames = userNames, userNames = userNames, orgName, teamName, auth)
 ```
+**Note:** This defaults to making private repositories. This can be changed by passing `private = T`.
+Register your Org with Github as an academic organization for free private repos.
+
+You can also disable auto-initialization with README with `auto_init = F`.
 
 # Troubleshooting
 ## Delete repos if there are issues
