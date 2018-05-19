@@ -86,7 +86,10 @@ delete_student_repo <- function(orgName, repoName, auth){
 # 3. add student as collaborator with push access to their own repo
 # 4. unwatch student repos.
 
-setup_course_repos <- function(repoNames, userNames, orgName, teamName, auth, private = T, auto_init = T, team_repo_permission = "pull"){
+setup_course_repos <- function(repoNames, userNames, orgName, 
+                               studentTeamName, 
+                               instructorTeamName, 
+                               auth, private = T, auto_init = T, team_repo_permission = "pull"){
   # where:
   # repoNames is a list of repository names
   # userNames is a list of usernames parallel to the repository name they will be assigned to
@@ -95,7 +98,8 @@ setup_course_repos <- function(repoNames, userNames, orgName, teamName, auth, pr
     stop("ERROR: repoNames and userNames must be equal width")
   } 
   
-  teamId <- get_team_id(orgName, teamName, auth)
+  studentTeamId <- get_team_id(orgName, studentTeamName, auth)
+  instructorTeamId <- get_team_id(orgName, instructorTeamName, auth)
   
   map2(repoNames, userNames, ~{
     repo <- .x
@@ -103,7 +107,8 @@ setup_course_repos <- function(repoNames, userNames, orgName, teamName, auth, pr
     
     add_student_to_team(orgName, teamId, userName = user, auth)
     make_student_repo(orgName, repoName = repo, auth, private = private, auto_init = auto_init)
-    assign_team_to_repo(orgName, repoName = repo, teamId, team_repo_permission, auth)
+    assign_team_to_repo(orgName, repoName = repo, studentTeamId, team_repo_permission, auth)
+    assign_team_to_repo(orgName, repoName = repo, instructorTeamId, "push", auth)
     add_student_to_repo(orgName, repoName = repo, userName = user, auth)
     unwatch_repo(orgName, repoName = repo, auth)
     })
