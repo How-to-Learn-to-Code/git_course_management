@@ -49,13 +49,20 @@ This will  create a repository named after each students' username. `repoNames` 
 ```{r}
 setup_course_repos(repoNames = userNames, userNames = userNames, orgName, teamName, auth)
 ```
-**Note:** This defaults to making private repositories. This can be changed by passing `private = T`.
+**Note:** This defaults to making private repositories. This can be changed by passing `private = F`.
 Register your Org with Github as an academic organization for free private repos.
 
 You can also disable auto-initialization with README with `auto_init = F`.
 
 # Troubleshooting
-## Delete repos if there are issues
+
+## repo names must not contain non-standard characters
+Github will replace nonstandard characters like ' with - during creation, but
+if the character is present in your repo names vector, you'll get errors.
+Ensure your repo names vector only contains non-special characters.
+
+
+## Delete repos if there are issues (this is usually not necessary)
 ```{r}
 purrr::map(userNames, ~{delete_student_repo(orgName, ., auth)})
 ```
