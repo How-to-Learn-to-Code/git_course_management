@@ -115,7 +115,7 @@ setup_course_repos <- function(repoNames, userNames, orgName,
     
     add_student_to_team(orgName, studentTeamId, userName = user, auth)
     make_student_repo(orgName, repoName = repo, auth, private = private, auto_init = auto_init)
-    assign_team_to_repo(orgName, repoName = repo, studentTeamId, studentTeam_repo_permission, auth)
+    assign_team_to_repo(orgName, repoName = repo, studentTeamId, student_team_repo_permission, auth)
     assign_team_to_repo(orgName, repoName = repo, instructorTeamId, "push", auth)
     add_student_to_repo(orgName, repoName = repo, userName = user, auth)
     unwatch_repo(orgName, repoName = repo, auth)
