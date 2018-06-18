@@ -5,7 +5,7 @@ library(gh)
 make_student_repo <- function(orgName, repoName, auth, private = T, auto_init = T){
   
   repo_names <- gh("GET /orgs/:org/repos",
-     org = org_name, 
+     org = orgName, 
      .token = auth) %>% 
     map_chr(., "name")
   
