@@ -3,15 +3,23 @@ library(purrr)
 library(gh)
 
 make_student_repo <- function(orgName, repoName, auth, private = T, auto_init = T){
-  gh("POST /orgs/:org/repos", 
-   org = orgName, 
-   name = repoName,
-   private = private,
-   has_issues = T,
-   has_projects = F,
-   has_wiki = F,
-   auto_init = auto_init,
-   .token = auth)
+  
+  repo_names <- gh("GET /orgs/:org/repos",
+     org = org_name, 
+     .token = auth) %>% 
+    map_chr(., "name")
+  
+  ifelse(repoName %in% repo_names, 
+         warning(glue::glue("{repoName} already exists in {orgName}. Skipping creation.")),
+         gh("POST /orgs/:org/repos", 
+                      org = orgName, 
+                      name = repoName,
+                      private = private,
+                      has_issues = T,
+                      has_projects = F,
+                      has_wiki = F,
+                      auto_init = auto_init,
+                      .token = auth))
 }
 
 get_team_id <- function(orgName, teamName, auth){
@@ -89,7 +97,7 @@ delete_student_repo <- function(orgName, repoName, auth){
 setup_course_repos <- function(repoNames, userNames, orgName, 
                                studentTeamName, 
                                instructorTeamName, 
-                               auth, private = T, auto_init = T, team_repo_permission = "pull"){
+                               auth, private = T, auto_init = T, student_team_repo_permission = "pull"){
   # where:
   # repoNames is a list of repository names
   # userNames is a list of usernames parallel to the repository name they will be assigned to
@@ -107,7 +115,7 @@ setup_course_repos <- function(repoNames, userNames, orgName,
     
     add_student_to_team(orgName, teamId, userName = user, auth)
     make_student_repo(orgName, repoName = repo, auth, private = private, auto_init = auto_init)
-    assign_team_to_repo(orgName, repoName = repo, studentTeamId, team_repo_permission, auth)
+    assign_team_to_repo(orgName, repoName = repo, studentTeamId, studentTeam_repo_permission, auth)
     assign_team_to_repo(orgName, repoName = repo, instructorTeamId, "push", auth)
     add_student_to_repo(orgName, repoName = repo, userName = user, auth)
     unwatch_repo(orgName, repoName = repo, auth)
